@@ -41,4 +41,3 @@ mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true, useUnifiedTopolo
     // Submissions Routes
 
     app.use('/api/'+apiVersion+'/submissions',submissionsRoutes)
-    console.log("get submissions : " + 'api/'+apiVersion+'/submissions')
