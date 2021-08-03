@@ -14,4 +14,7 @@ const router = express.Router()
     router.post('/new',submissionsController.submissions_new)
 
 // Export
-    router.get('/export/wp/:id',submissionsController.submissions_export)
+    router.get('/export/:id',submissionsController.export_single)
+
+
+    module.exports = router

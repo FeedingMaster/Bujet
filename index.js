@@ -5,9 +5,13 @@ const app = express()
 const dotenv = require('dotenv')
 
 
+// Imports ==================================
+const submissionsRoutes = require('./server/routes/submissionRoutes.js')
+
 // Config ===================================
 dotenv.config();
 const port = process.env.PORT || 8000
+const apiVersion = "v1"
 
 
 // Middleware ==============================
@@ -33,3 +37,8 @@ mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true, useUnifiedTopolo
 
 
 // Routes ================================
+
+    // Submissions Routes
+
+    app.use('/api/'+apiVersion+'/submissions',submissionsRoutes)
+    console.log("get submissions : " + 'api/'+apiVersion+'/submissions')
