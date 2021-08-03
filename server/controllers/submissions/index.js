@@ -3,8 +3,12 @@ const submissions = require("../../models/submissions")
 
 //Return All submissionss
 const  submissions_index  = async (req,res)=>{
-    res.send("routes connected")
-    console.log("routes connected")
+    const filter = {};
+    await submissions.find(filter).then(data=>{
+        res.send(data) 
+    }).catch(err=>{
+        console.log(err)
+    })
 }
 
 
@@ -14,7 +18,7 @@ const  submissions_new  = (req,res)=>{
     const submission = new submissions(req.body)
     submission.save()
     .then((result)=>{
-        res.type('html')
+        res.type('json')
         res.send(result)
         console.log("successfully Submitted")
     })  
@@ -27,8 +31,14 @@ const  submissions_new  = (req,res)=>{
  
 // Requires only the submissions ID to show to a 
 const  submissions_return_single  = (req,res)=>{
-    res.send("ID routes connected")
-    console.log("routes connected")
+    const submissionId = req.params.id
+
+    submissions.findOne({_id:submissionId})
+    .then((result)=>{
+        res.send(result)
+    }).catch(err=>{
+        console.log(err)
+    })
 }
 
 
