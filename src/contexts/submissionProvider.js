@@ -10,7 +10,7 @@ export function SubmissionProvider({ children }) {
       savings:[]
     })
     const [ipAddress, setIpAddress] = useState("")
-    const baseUrl = "http://localhost:8000/api/v1"
+    const baseUrl = "http://localhost:8000/api/v1/submissions"
 
  
     // Submit Budget
@@ -21,10 +21,18 @@ export function SubmissionProvider({ children }) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
-        }).then((response)=> {
-          console.log("Submitted: "+response)
+        }).then((res)=> {
+          console.log("Submitted: ",res)
+          if (res.status == 200) {
+            setSubmission({
+              ipAddress:"",
+              income:[],
+              expenses:[],
+              savings:[]
+            })
+          }
         }).catch((err)=> {
-          console.log("Submitted Failed: "+err)
+          console.log("Submission Failed: ",err)
         });
      }
 
@@ -34,6 +42,21 @@ export function SubmissionProvider({ children }) {
     // Get Overview
 
     // Get all Budget
+    const getAllBudgets = (data)=>{
+      fetch(baseUrl+'/', {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response)=> {
+        return response.json()
+      }).then(data=>{
+        console.log(data)
+      
+      }).catch((err)=> {
+        console.log("Submission Failed: ",err)
+      });
+   }
 
 
     // Get User IP Address
@@ -42,6 +65,7 @@ export function SubmissionProvider({ children }) {
             return response.text();
           }).then(function(data) {
             setIpAddress(data)
+            setSubmission({...submission,ipAddress:ipAddress})
           }).catch((err)=> {
             console.log("Submitted Failed to get IP address: "+err)
           })
@@ -61,6 +85,7 @@ export function SubmissionProvider({ children }) {
     submission:submission,
     setSubmission:setSubmission,
     submitBudget:submitBudget,
+    getAllBudgets:getAllBudgets
   }
 
   return (
