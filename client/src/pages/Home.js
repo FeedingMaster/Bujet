@@ -48,7 +48,6 @@ function Home() {
     return (
         <div>
             {itemType}
-            {ipAddress, "gjhg"}
             <form onSubmit={addItem}>
                 <label htmlFor="" >Name</label>
                 <input type="text" required value={item.name} onChange={updateValue} name="name" />
