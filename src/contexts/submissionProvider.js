@@ -4,6 +4,7 @@ export const SubmissionContext = createContext()
 
 export function SubmissionProvider({ children }) {
     const [submission, setSubmission] = useState({
+      ipAddress:"",
       income:[],
       expenses:[],
       savings:[]
@@ -41,10 +42,9 @@ export function SubmissionProvider({ children }) {
             return response.text();
           }).then(function(data) {
             setIpAddress(data)
-            console.log(data);
           }).catch((err)=> {
             console.log("Submitted Failed to get IP address: "+err)
-          });
+          })
      }
 
 
