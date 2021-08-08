@@ -9,7 +9,7 @@ import savingsIcon from "../assets/images/savings_icon.svg";
 import Results from "../components/submission/Results";
 
 function Home() {
-  const { submission, setSubmission, submitBudget, getAllBudgets } =
+  const { submission, setSubmission, submitBudget, results,error } =
     useContext(SubmissionContext);
   const [itemType, setItemType] = useState("income");
   const [navState, setNavState] = useState(0);
@@ -44,7 +44,7 @@ function Home() {
     let type = newSubmission[itemType];
     type.splice(index, 1);
     setSubmission(newSubmission);
-    setItem({ name: "", value: "" }); //
+    setItem({ name: "", value: "" }); 
     console.log(submission);
   };
 
@@ -60,100 +60,105 @@ function Home() {
         <div className="content">
           <div className="content__container">
             <StepIndicator navState={navState} />
-
-            <div className="typeHeader">
-              <h2>Add New {typeList[navState]}</h2>
-              <p>Add monthly salary & other income, etc</p>
-            </div>
-            <form onSubmit={addItem}>
-              <div className="addItems">
-                <div>
-                  <div>
-                    <input
-                      type="text"
-                      required
-                      placeholder={typeList[navState] + " Name"}
-                      value={item.name}
-                      onChange={updateValue}
-                      name="name"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <input
-                      type="number"
-                      placeholder="Amount"
-                      required
-                      value={item.value}
-                      onChange={updateValue}
-                      name="value"
-                    />
-                  </div>
-                  <button class="addBtn" type="submit">
-                    +
-                  </button>
-                </div>
+            {!results ? <div>
+              {!error ? (<><div className="typeHeader">
+                <h2>Add New {typeList[navState]}</h2>
+                <p>Add monthly salary & other income, etc</p>
               </div>
-            </form>
 
-            <div className="itemsList">
-              {submission[itemType].map((listItem, i) => {
-                return (
-                  <div class="item" key={i}>
-                    <div className="item-name">
-                      <span>
-                        <img
-                          src={itemImageList[navState]}
-                          width="40"
-                          alt=""
-                          srcset=""
-                        />
-                      </span>
-                      <span>{listItem.name}</span>
-                    </div>
-                    <div className="item-value">
-                      {" "}
-                      ${listItem.value}
-                      <span class="item-delete" onClick={() => removeItem(i)}>
-                        <img src={bin} alt="" srcset="" />
-                      </span>
+              <form onSubmit={addItem}>
+                <div className="addItems">
+                  <div>
+                    <div>
+                      <input
+                        type="text"
+                        required
+                        placeholder={typeList[navState] + " Name"}
+                        value={item.name}
+                        onChange={updateValue}
+                        name="name"
+                      />
                     </div>
                   </div>
-                );
-              })}
+                  <div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="Amount"
+                        required
+                        value={item.value}
+                        onChange={updateValue}
+                        name="value"
+                      />
+                    </div>
+                    <button class="addBtn" type="submit">
+                      +
+                    </button>
+                  </div>
+                </div>
+              </form>
 
-              { (submission[itemType].length  === 0) ? <div className="no-item"> You have no {typeList[navState]} Item(s) Yet. :(</div>:"" }
+              <div className="itemsList">
+                {submission[itemType].map((listItem, i) => {
+                  return (
+                    <div class="item" key={i}>
+                      <div className="item-name">
+                        <span>
+                          <img
+                            src={itemImageList[navState]}
+                            width="40"
+                            alt=""
+                            srcset=""
+                          />
+                        </span>
+                        <span>{listItem.name}</span>
+                      </div>
+                      <div className="item-value">
+                        {" "}
+                        ${listItem.value}
+                        <span class="item-delete" onClick={() => removeItem(i)}>
+                          <img src={bin} alt="" srcset="" />
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
 
-            </div>
-            {/* <button onClick={getAllBudgets}>View All Budgets</button> */}
-          </div>
-          <div className="btn-container">
-            <div className="navBtns">
-              <div>
-                {navState !== 0 ? (
-                  <button onClick={() => nav(-1)}>Back</button>
+                {submission[itemType].length === 0 ? (
+                  <div className="no-item">
+                    {" "}
+                    You have no {typeList[navState]} Item(s) Yet. :(
+                  </div>
                 ) : (
                   ""
                 )}
               </div>
-              <div>
-                {navState !== 2 ? (
-                  <button onClick={() => nav(1)}>Next</button>
-                ) : (
-                  <button onClick={submitForm}>Submit Budget</button>
-                )}
-              </div>
-            </div>
+              {/* <button onClick={getAllBudgets}>View All Budgets</button> */}
+
+              <div className="btn-container">
+                <div className="navBtns">
+                  <div>
+                    {navState !== 0 ? (
+                      <button onClick={() => nav(-1)}>Back</button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div>
+                    {navState !== 2 ? (
+                      <button onClick={() => nav(1)}>Next</button>
+                    ) : (
+                      <button onClick={submitForm}>Submit Budget</button>
+                    )}
+                  </div>
+                </div>
+              </div> </>): <div className="error">{error}</div> }
+            </div> : <Results />}
           </div>
-          <Results/>
         </div>
       </div>
     </div>
   );
 }
-
-
-
 
 export default Home;

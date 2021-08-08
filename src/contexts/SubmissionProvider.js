@@ -4,6 +4,7 @@ export const SubmissionContext = createContext()
 
 export function SubmissionProvider({ children }) {
     const [results, setResults] = useState()
+    const [error, setError] = useState(null)
     const [submission, setSubmission] = useState({
       ipAddress:"",
       income:[],
@@ -26,6 +27,9 @@ export function SubmissionProvider({ children }) {
           return res.json()
         }).then((res)=>{
           console.log("Submitted: ",res)
+          if (!res.status) {
+            setError(res.message)
+          }else{
           getCurrentBudget(res._id)
           setSubmission({
             ipAddress:"",
@@ -33,6 +37,7 @@ export function SubmissionProvider({ children }) {
             expenses:[],
             savings:[]
           })
+          }
         }).catch((err)=> {
           console.log("Submission Failed: ",err)
         });
@@ -103,7 +108,8 @@ export function SubmissionProvider({ children }) {
     setSubmission:setSubmission,
     submitBudget:submitBudget,
     getAllBudgets:getAllBudgets,
-    results
+    results,
+    error
   }
 
   return (

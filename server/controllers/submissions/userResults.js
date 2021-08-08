@@ -14,11 +14,11 @@ userResults = (results)=>{
     let budgetMessage
 
     if (expenses < (income + savings)) {
-        budgetMessage =  "You have a good handle of budget" 
+        budgetMessage =  "You have a good handle of your budget" 
     }else if(expenses == (income + savings)){
         budgetMessage =  "You need to cut back on your expenses " 
     }else if(expenses < (income + savings)){
-        budgetMessage =  "Display: Your budget is very tight. " 
+        budgetMessage =  "Your budget is very tight. " 
     }
 
     return  {

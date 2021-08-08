@@ -41,3 +41,9 @@ mongoose.connect(process.env.DB_CONNECT,{useNewUrlParser: true, useUnifiedTopolo
     // Submissions Routes
 
     app.use('/api/'+apiVersion+'/submissions',submissionsRoutes)
+
+    app.use(express.static('build'))
+    app.get('*',(req,res)=>{
+        res.statusCode = 200;
+        res.sendFile(__dirname,'index.html')
+    })

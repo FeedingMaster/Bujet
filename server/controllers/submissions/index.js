@@ -14,18 +14,24 @@ const  submissions_index  = async (req,res)=>{
 
 
 // Create New submissions
-const  submissions_new  = (req,res)=>{
-    const submission = new submissions(req.body)
-    submission.save()
-    .then((result)=>{
+const  submissions_new  = async (req,res)=>{
+ 
+    let ip = req.body.ipAddress
+    const ipExists = await submissions.exists({ ipAddress: ip});
+    if (!ipExists){
+        const submission = new submissions(req.body)
+        submission.save()
+        .then((result)=>{
+            res.type('json')
+            res.send(result)
+            console.log("successfully Submitted")
+        }).catch((err)=>{
+            console.log(err)
+        }) 
+    }else{
         res.type('json')
-        res.send(result)
-        console.log("successfully Submitted")
-    })  
-    .catch((err)=>{
-        console.log(err)
-    }) 
-
+        res.send({status:false,message:"You have already submitted"})
+    }
 } 
 
  
@@ -44,8 +50,6 @@ const  submissions_return_single  = (req,res)=>{
 
 // Export Submission To .CV file
 const  export_single  = (req,res)=>{
-    res.send("routes connected")
-    console.log("routes connected")
 }
 
 
