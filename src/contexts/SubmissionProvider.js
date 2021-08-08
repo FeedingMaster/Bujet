@@ -3,6 +3,7 @@ import {createContext,useEffect,useState} from 'react'
 export const SubmissionContext = createContext()
 
 export function SubmissionProvider({ children }) {
+    const [results, setResults] = useState()
     const [submission, setSubmission] = useState({
       ipAddress:"",
       income:[],
@@ -22,15 +23,16 @@ export function SubmissionProvider({ children }) {
           },
           body: JSON.stringify(data)
         }).then((res)=> {
+          return res.json()
+        }).then((res)=>{
           console.log("Submitted: ",res)
-          if (res.status === 200) {
-            setSubmission({
-              ipAddress:"",
-              income:[],
-              expenses:[],
-              savings:[]
-            })
-          }
+          getCurrentBudget(res._id)
+          setSubmission({
+            ipAddress:"",
+            income:[],
+            expenses:[],
+            savings:[]
+          })
         }).catch((err)=> {
           console.log("Submission Failed: ",err)
         });
@@ -50,11 +52,26 @@ export function SubmissionProvider({ children }) {
         }
       }).then((response)=> {
         return response.json()
-      }).then(data=>{
-        console.log(data)
-      
       }).catch((err)=> {
         console.log("Submission Failed: ",err)
+      });
+   }
+
+
+    // Get all Budget
+    function getCurrentBudget(id){
+      fetch(baseUrl+'/'+id , {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res)=> {
+        return res.json()
+      }).then((data)=>{
+        console.log(data)
+          setResults(data)
+      }).catch((err)=> {
+        console.log("Request Failed: ",err)
       });
    }
 
@@ -85,7 +102,8 @@ export function SubmissionProvider({ children }) {
     submission:submission,
     setSubmission:setSubmission,
     submitBudget:submitBudget,
-    getAllBudgets:getAllBudgets
+    getAllBudgets:getAllBudgets,
+    results
   }
 
   return (

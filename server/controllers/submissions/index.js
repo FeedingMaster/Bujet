@@ -1,4 +1,5 @@
 const submissions = require("../../models/submissions")
+const parseUserResults = require("./userResults")
 
 
 //Return All submissionss
@@ -14,7 +15,6 @@ const  submissions_index  = async (req,res)=>{
 
 // Create New submissions
 const  submissions_new  = (req,res)=>{
-
     const submission = new submissions(req.body)
     submission.save()
     .then((result)=>{
@@ -29,13 +29,13 @@ const  submissions_new  = (req,res)=>{
 } 
 
  
-// Requires only the submissions ID to show to a 
+// Requires only the submissions ID to show the current results
 const  submissions_return_single  = (req,res)=>{
     const submissionId = req.params.id
 
     submissions.findOne({_id:submissionId})
     .then((result)=>{
-        res.send(result)
+        res.send(parseUserResults(result))
     }).catch(err=>{
         console.log(err)
     })
