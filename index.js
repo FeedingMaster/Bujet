@@ -41,9 +41,9 @@ app.use("/api/" + apiVersion + "/submissions", submissionsRoutes);
 
 // Serve Static Assets
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("build"));
-  app.get("*", (req, res) => {
-    res.statusCode = 200;
-    res.sendFile(path.resolve(__dirname,"build","index.html"));
-  });
+app.use(express.static("build"));
+app.get("*", (req, res) => {
+  res.statusCode = 200;
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
 }

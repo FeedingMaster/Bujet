@@ -91,7 +91,7 @@ function Home() {
                         name="value"
                       />
                     </div>
-                    <button class="addBtn" type="submit">
+                    <button className="addBtn" type="submit">
                       +
                     </button>
                   </div>
@@ -101,7 +101,7 @@ function Home() {
               <div className="itemsList">
                 {submission[itemType].map((listItem, i) => {
                   return (
-                    <div class="item" key={i}>
+                    <div className="item" key={i}>
                       <div className="item-name">
                         <span>
                           <img
@@ -116,7 +116,7 @@ function Home() {
                       <div className="item-value">
                         {" "}
                         ${listItem.value}
-                        <span class="item-delete" onClick={() => removeItem(i)}>
+                        <span className="item-delete" onClick={() => removeItem(i)}>
                           <img src={bin} alt="" srcset="" />
                         </span>
                       </div>

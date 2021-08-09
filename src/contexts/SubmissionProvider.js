@@ -1,4 +1,5 @@
 import {createContext,useEffect,useState} from 'react'
+require('dotenv').config()
 
 export const SubmissionContext = createContext()
 
@@ -12,7 +13,7 @@ export function SubmissionProvider({ children }) {
       savings:[]
     })
     const [ipAddress, setIpAddress] = useState("")
-    const baseUrl = process.env.REACT_APP_BASE_URL || "http://localhost:8000/api/v1/submissions/"
+    const baseUrl = process.env.REACT_APP_BASE_URL
 
   
     // Submit Budget
